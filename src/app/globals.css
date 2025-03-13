@@ -1,0 +1,187 @@
+/* fonts roboto google */
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+
+:root {
+  --background: #181818;
+  --blue-color: #2666cf;
+  --red-color: #c62e2e;
+  --green-color: #72bf78;
+  --yellow-color: #fabc3f;
+  --white-color: #ffffff;
+  --black-color: #1e1e1e;
+  --grey-color: #d9d9d9;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+    background: var(--background);
+    color: var(--white-color);
+    font-family: "Roboto";
+}
+
+/* COMPONENTS CLIENT NAVBAR */
+.navbar{
+  background-color: var(--black-color);
+  border-bottom: var(--grey-color) 1px solid;
+}
+
+
+.navbar a {
+  color: var(--white-color);
+}
+.navbar a:hover {
+  color: var(--blue-color);
+}
+
+/* COMPONENT JUDUL */
+.judul-h2{
+  color: var(--white-color);
+  font-weight: 700;
+  font-size: 24px;
+}
+ .judul-text{
+  color: var(--red-color);
+  font-size: 20px;
+}
+form{
+  --animate-duration: 0.3s;
+}
+/* COMPONENT FORM */
+form .form-control {
+  background-color: var(--grey-color);
+  color: var(--black-color);
+
+}
+.form-control:focus {
+  border: 1px solid var(--red-color);
+  background-color: var(--grey-color);
+  color: var(--black-color);
+  box-shadow: 0 0 5px 2px rgba(198, 46, 46, 0.774);
+  transition: ease-in 0.2s;
+}
+
+form label {
+  color: var(--white-color);
+  margin-bottom: 7px;
+  font-size: 16px;
+}
+
+form textarea {
+  height: 100px;
+}
+
+/* COMPONENT BUTTON */
+.trigger-submit .btn{
+  background-color: var(--blue-color);
+  color: var(--white);
+  font-weight: 600;
+  font-size: 16px;
+  border-radius: 5px;
+}
+
+.btn{
+  background-color: var(--blue-color);
+  color: var(--white-color);
+  font-weight: 600;
+  font-size: 16px;
+  border-radius: 5px;
+}
+.btn:hover{
+  background-color: var(--background);
+  border-color: var(--blue-color);
+  color: var(--white);
+  font-weight: 600;
+  font-size: 16px;
+  border-radius: 5px;
+}
+.kolo {
+  padding-top: 90px;
+}
+
+.navbar .active-navbar-client{
+
+  color: var(--blue-color);
+  font-weight: 600;
+  font-size: 16px;
+  border-bottom: 2px solid var(--blue-color);
+}
+.viewharwat{
+  margin-top: 7rem;
+}
+.viewharwat .card {
+  background-color: var(--black-color);
+  color: var(--white-color);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+/* chart client */
+.minimize-chart{
+  cursor: pointer;
+}
+.text-minimize{
+  color: var(--red-color);
+  font-size: 17px;
+  font-weight: 600;
+}
+
+/* Card client */
+.cardClient-text-harwat{
+  color: var(--red-color);
+}
+.cardClient-text-bmp{
+  color: var(--yellow-color);
+}
+
+/* HTML: <div class="loader"></div> */
+.loader {
+  width: 50px;
+  padding: 8px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--blue-color);
+  --_m: 
+    conic-gradient(#0000 10%,#000),
+    linear-gradient(#000 0 0) content-box;
+  -webkit-mask: var(--_m);
+          mask: var(--_m);
+  -webkit-mask-composite: source-out;
+          mask-composite: subtract;
+  animation: l3 1s infinite linear;
+}
+@keyframes l3 {to{transform: rotate(1turn)}}
+
+/* animasi card */
+@keyframes buka {
+  from {
+    opacity: 0;
+    transform: translateY(-20px); 
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes fadeOutDown {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-20px); 
+  }
+}
+.card-bar{
+  position: relative;
+  opacity: 0;
+}
+.card-bar.show {
+  animation: buka 0.5s forwards;
+}
+.card-bar.close {
+  animation: fadeOutDown 3s forwards;
+}
