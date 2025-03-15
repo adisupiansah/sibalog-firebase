@@ -3,12 +3,18 @@ import React, { useState, useEffect } from "react";
 import InitTable from "@/libs/datatables-config";
 import moment from "moment-timezone";
 import CardClient from "./CardClient";
+import { createRoot } from "react-dom/client";
+import ExportPDFButton from "./ExportPdfButton";
 
 const ViewHarwat = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const DataTable = () => {
+    let savePDF = document.createElement('div')
+    let root = createRoot(savePDF)
+    root.render(<ExportPDFButton data={data}/>)
+
     InitTable("#monitor", {
       language: {
         info: "Halaman _PAGE_ dari _PAGES_",
@@ -31,7 +37,7 @@ const ViewHarwat = () => {
             },
           },
         ],
-        topEnd: null,
+        topEnd: savePDF,
       },
       scrollX: true,
     });

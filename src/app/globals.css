@@ -98,6 +98,18 @@ form textarea {
   font-size: 16px;
   border-radius: 5px;
 }
+.btn-savepdf{
+  background-color: var(--red-color);
+  /* padding: 10px 20px; */
+  color: var(--white-color);
+  font-weight: 600;
+  font-size: 16px;
+  border-radius: 5px;
+}
+.btn-savepdf:hover{
+  background-color: #a51c1c;
+  border-color: #a51c1c;
+}
 .kolo {
   padding-top: 90px;
 }
