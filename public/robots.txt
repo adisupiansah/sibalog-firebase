@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://sibalog.vercel.app
+
+# Sitemaps
+Sitemap: https://sibalog.vercel.app/sitemap.xml
