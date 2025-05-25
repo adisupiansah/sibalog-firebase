@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import "animate.css";
+import Judul from "../comp-judul/Judul";
 
 const FormRequest = () => {
   const [data, setData] = useState({
@@ -9,6 +10,7 @@ const FormRequest = () => {
     satfung: "",
     perihal: "",
     no_pengajuan: "",
+    nrp: "",
   });
 
   const [isFormVisible, setIsFormVisible] = useState(false); // State untuk mengontrol tampilan form
@@ -30,17 +32,61 @@ const FormRequest = () => {
     }
   };
 
-  const handleChange = (e) => {
+  const handleChange = async (e) => {
     const { name, value } = e.target;
+
     setData((prev) => ({
       ...prev,
-      [name]: value, // Update hanya properti yang sesuai dengan name
+      [name]: value,
     }));
+
+    if (name === "nrp" && value) {
+      if (value.length < 8) {
+        setData((prev) => ({
+          ...prev,
+          nama: "",
+          satfung: "",
+        }));
+        return;
+      }
+
+      try {
+        const response = await fetch(`/api/v1/izin?nrp=${value}`);
+        const result = await response.json();
+
+        if (result.error) {
+          setData((prev) => ({
+            ...prev,
+            nama: "",
+            satfung: "",
+          }));
+        } else {
+          setData((prev) => ({
+            ...prev,
+            nama: result.nama,
+            satfung: result.satfung,
+          }));
+        }
+      } catch (err) {
+        console.error("Error fetching NRP:", err);
+        setData((prev) => ({
+          ...prev,
+          nama: "",
+          satfung: "",
+        }));
+      }
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!data.nama || !data.satfung || !data.perihal || !data.no_pengajuan) {
+    if (
+      !data.nama ||
+      !data.satfung ||
+      !data.perihal ||
+      !data.no_pengajuan ||
+      !data.nrp
+    ) {
       Swal.fire({
         title: "Error",
         text: "Harap lengkapi semua form!",
@@ -102,11 +148,14 @@ const FormRequest = () => {
         <div className="col-md-6">
           {/* Tombol untuk menampilkan form */}
           {!isFormVisible && (
-            <div className="d-flex justify-content-center align-items-center mt-3">
-              <button className="btn" onClick={() => setIsFormVisible(true)}>
-                Ambil nomor nota dinas
-              </button>
-            </div>
+            <>
+              <Judul />
+              <div className="d-flex justify-content-center align-items-center mt-3">
+                <button className="btn" onClick={() => setIsFormVisible(true)}>
+                  Ambil nomor nota dinas
+                </button>
+              </div>
+            </>
           )}
 
           {/* Form ditampilkan hanya jika isFormVisible true */}
@@ -115,47 +164,73 @@ const FormRequest = () => {
               onSubmit={handleSubmit}
               className="animate__animated animate__zoomIn"
             >
-              <label>Nama</label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Adi Supiyansah"
-                value={data.nama}
-                onChange={handleChange}
-                name="nama"
-              />
+              {/* nrp/NRP Field */}
+              <div className="mb-3">
+                <label className="form-label">NRP / NIP</label>
+                <input
+                  type="number"
+                  className="form-control"
+                  value={data.nrp}
+                  onChange={handleChange}
+                  name="nrp"
+                  placeholder="79044312"
+                />
+              </div>
 
-              <label className="mt-3">Satfung</label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Baglog"
-                value={data.satfung}
-                onChange={handleChange}
-                name="satfung"
-              />
+              {/* Nama Field */}
+              <div className="mb-3">
+                <label className="form-label">Nama</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={data.nama}
+                  onChange={handleChange}
+                  name="nama"
+                  placeholder="Nama"
+                  readOnly
+                />
+              </div>
 
-              <label className="mt-3">No Nota Dinas Anda</label>
-              <input
-                type="text"
-                className="form-control"
-                value={data.no_pengajuan}
-                onChange={handleChange}
-                name="no_pengajuan"
-              />
+              <div className="mb-3">
+                <label className="form-label">Jabatan</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={data.satfung}
+                  onChange={handleChange}
+                  name="satfung"
+                  placeholder="Baglog"
+                  readOnly
+                />
+              </div>
 
-              <label className="mt-3">Perihal</label>
-              <textarea
-                type="text"
-                className="form-control"
-                placeholder="Hal"
-                value={data.perihal}
-                onChange={handleChange}
-                name="perihal"
-              ></textarea>
+              {/* No Pengajuan Field */}
+              <div className="mb-3">
+                <label className="form-label">No Nota Dinas Anda</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={data.no_pengajuan}
+                  onChange={handleChange}
+                  name="no_pengajuan"
+                />
+              </div>
 
-              <div className="trigger-submit d-flex justify-content-end align-items-end">
-                <button className="btn btn-sm mt-3" type="submit">
+              {/* Perihal Field */}
+              <div className="mb-3">
+                <label className="form-label">Perihal</label>
+                <textarea
+                  className="form-control"
+                  value={data.perihal}
+                  onChange={handleChange}
+                  name="perihal"
+                  rows="3"
+                  placeholder="Permohonan ATK"
+                ></textarea>
+              </div>
+
+              <div className="d-flex justify-content-center">
+                <button className="btn btn-success col-md-4" type="submit">
                   Submit
                 </button>
               </div>

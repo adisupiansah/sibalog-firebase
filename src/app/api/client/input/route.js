@@ -4,10 +4,10 @@ import { ref, push } from "firebase/database";
 export async function POST(request) {
   try {
     const body = await request.json();
-    const { nama, satfung, perihal, no_pengajuan } = body;
+    const { nama, satfung, perihal, no_pengajuan, nrp } = body;
 
     // validasi data yang dikirim dari  client
-    if (!nama || !satfung || !perihal || !no_pengajuan) {
+    if (!nama || !satfung || !perihal || !no_pengajuan || !nrp) {
       return new Response(JSON.stringify({ message: "Data tidak lengkap" }), {
         status: 400,
         headers: {
@@ -23,6 +23,7 @@ export async function POST(request) {
         satfung,
         perihal,
         no_pengajuan,
+        nrp,
         createdAt: new Date().toISOString(),
     });
 
